@@ -19,16 +19,35 @@ main =
 -- MODEL
 
 
+type CellState
+    = Empty
+    | X
+    | O
+
+
+cellToString : CellState -> String
+cellToString cell =
+    case cell of
+        Empty ->
+            " "
+
+        X ->
+            "X"
+
+        O ->
+            "O"
+
+
 type alias Model =
-    { turn : Char
-    , timewarp : List (List Char)
-    , board : List Char
+    { turn : CellState
+    , timewarp : List (List CellState)
+    , board : List CellState
     }
 
 
 init : Model
 init =
-    Model 'X' [ List.repeat 9 ' ' ] (List.repeat 9 ' ')
+    Model X [ List.repeat 9 Empty ] (List.repeat 9 Empty)
 
 
 
@@ -44,10 +63,10 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
-            { model | turn = 'O' }
+            { model | turn = O }
 
         Decrement ->
-            { model | turn = 'X' }
+            { model | turn = X }
 
 
 
@@ -57,5 +76,6 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ style "border" "1px solid #0a0305" ]
-        [ div [] [ text "Hello" ]
+        [ div []
+            (List.map (\cell -> div [] [ text "1" ]) model.board)
         ]
