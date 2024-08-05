@@ -77,6 +77,5 @@ view : Model -> Html Msg
 view model =
     div [ style "border" "1px solid #0a0305" ]
         [ div []
-            [ List.map ((\cell -> div [] [ text "1" ]) model.board)
-            ]
+            (List.map (\cell -> div [] [ text (cellToString cell) ]) model.board)
         ]
