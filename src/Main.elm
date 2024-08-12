@@ -12,10 +12,8 @@ import List.Extra exposing (..)
 
 -- IDEAS
 -- Custom size
--- Time travel
 -- Sounds?
--- checkwin
--- display winner
+-- StyleSheet
 -- MAIN
 
 
