@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          check-latest: true
+      - name: Elm version
+        run: npx --yes elm@0.19.1-6 --version
+      - name: Run elm-test
+        shell: bash
+        run: |
+          set -o pipefail
+          npx --yes -p elm@0.19.1-6 -p elm-test@0.19.1-revision12 elm-test 2>&1 | tee elm-test.log || {
+            msg=$(tail -c 4000 elm-test.log | sed -e 's/\x1b\[[0-9;]*m//g' | awk '{printf "%s%%0A", $0}')
+            echo "::error title=elm-test failed::${msg}"
+            exit 1
+          }
